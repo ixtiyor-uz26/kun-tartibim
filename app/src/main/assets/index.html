@@ -55,6 +55,7 @@ section[hidden]{display:none!important}
 .k-show .tag{background:var(--card);color:var(--surface)}
 .k-remind .tag{background:var(--line);color:var(--ink)}
 .k-maqsad .tag{border:1px dashed var(--accent);color:var(--accent)}
+.k-kin .tag{background:var(--gold-soft);color:var(--gold)}
 .it.past:not(.done) .tx b{color:var(--muted)}
 .it.cur{background:var(--accent-soft);border-radius:10px;border-bottom-color:transparent}
 .it.done .tx b{text-decoration:line-through;color:var(--muted)}
@@ -93,9 +94,9 @@ input:focus-visible,select:focus-visible,button:focus-visible,textarea:focus-vis
 .bead .w{font-size:13px;color:var(--muted)}
 .steps{display:flex;gap:6px}.steps i{width:28px;height:6px;border-radius:3px;background:var(--line)}.steps i.on{background:var(--gold)}
 nav{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);
-  display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom,0px);
+  display:grid;grid-template-columns:repeat(6,1fr);padding-bottom:env(safe-area-inset-bottom,0px);
   padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
-nav button{background:none;border:0;font:inherit;font-size:11px;font-weight:700;color:var(--muted);padding:10px 4px 12px;cursor:pointer;display:grid;justify-items:center;gap:3px}
+nav button{background:none;border:0;font:inherit;font-size:10.5px;font-weight:700;color:var(--muted);padding:10px 4px 12px;cursor:pointer;display:grid;justify-items:center;gap:3px}
 nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
 nav button[aria-current="true"]{color:var(--accent)}
 .note{font-size:12px;color:var(--muted)}
@@ -125,6 +126,20 @@ nav button[aria-current="true"]{color:var(--accent)}
 .open{color:var(--accent);font-weight:700}.closed{color:var(--muted)}
 .books h3{margin:4px 0 0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .books ul{margin:0;padding-left:18px;display:grid;gap:6px}.books li span{color:var(--muted);font-size:13px}
+.kc{background:var(--surface);border-radius:14px;padding:14px;margin-top:10px;display:grid;gap:10px}
+.kh{display:flex;align-items:center;gap:12px}.kh .m{flex:1;min-width:0}
+.kh b{display:block;font-family:var(--f-display);font-size:19px;overflow-wrap:anywhere}.kh span{display:block;color:var(--muted);font-size:13px}
+.callbtn{flex:none;width:54px;height:54px;border-radius:50%;border:0;background:var(--accent);color:var(--surface);cursor:pointer;display:grid;place-items:center}
+.callbtn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2}
+.callbtn[disabled]{background:var(--line);color:var(--muted);cursor:default}
+.kt{display:flex;flex-wrap:wrap;gap:6px}
+.kt i{font-style:normal;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+.kt i.ok{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+.kt i.miss{color:var(--danger);border-color:var(--danger)}
+.ka{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ka button{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:5px 10px;font:inherit;font-size:13px;cursor:pointer}
+.ka .note{flex:1;min-width:140px}
+.tgl{display:flex;gap:8px;align-items:flex-start;font-size:13px}.tgl input{width:auto;margin:3px 0 0}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
 .toast.on{opacity:1}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -243,6 +258,20 @@ nav button[aria-current="true"]{color:var(--accent)}
   <ul class="list" id="exlist"></ul>
 </section>
 
+<section id="tab-yaqin" hidden>
+  <h2>Yaqinlarim</h2>
+  <p class="note">Belgilangan vaqtda eslatma keladi. Bildirishnomani bossangiz, qo'ng'iroq darhol boshlanadi. Qo'ng'iroq qilganingiz o'zi belgilanadi va shu vaqtga yaqin eslatma qayta kelmaydi.</p>
+  <div id="kinlist"></div>
+  <h2 id="kin-h">Yangi odam qo'shish</h2>
+  <form class="card" id="kinform">
+    <label class="fld">Ismi<input id="kin-name" placeholder="Masalan: Onam" required maxlength="40"></label>
+    <label class="fld">Telefon raqami<input id="kin-phone" type="tel" inputmode="tel" placeholder="+998 90 123 45 67" maxlength="20"></label>
+    <label class="fld">Eslatma vaqtlari (vergul bilan)<input id="kin-times" placeholder="09:00, 13:00, 18:00" maxlength="80"></label>
+    <label class="tgl"><input type="checkbox" id="kin-once"><span>Kuniga bir marta yetarli: qo'ng'iroq qilsam, shu kungi qolgan eslatmalar kelmasin</span></label>
+    <div class="row"><button class="btn" type="submit" id="kin-save">Qo'shish</button><button class="btn ghost" type="button" id="kin-cancel" hidden>Bekor qilish</button></div>
+  </form>
+</section>
+
 <section id="tab-uylar" hidden>
   <h2>Uy ko'rsatishlar</h2>
   <p class="note">Yangisini "Bugun" bo'limidagi formadan qo'shasiz. Bu yerda holatini belgilaysiz.</p>
@@ -255,6 +284,7 @@ nav button[aria-current="true"]{color:var(--accent)}
   <button data-tab="duo"><svg viewBox="0 0 24 24"><path d="M15 4a8 8 0 1 0 5 13 7 7 0 0 1-5-13z"/></svg>Duo</button>
   <button data-tab="aql"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg>Aql</button>
   <button data-tab="xarajat"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 15h2"/></svg>Xarajat</button>
+  <button data-tab="yaqin"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Yaqinlar</button>
   <button data-tab="uylar"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8H4z"/><path d="M10 19v-5h4v5"/></svg>Uylar</button>
 </nav>
 <div class="toast" id="toast"></div>
@@ -344,7 +374,9 @@ function pushSchedule(){clearTimeout(schedT);schedT=setTimeout(()=>{
       const extra=[e.client,e.phone].filter(Boolean).join(" · ");
       if(e.type==="show"){items.push({t:t-30,title:"30 daqiqadan keyin uy ko'rsatish",text:e.title+(extra?" · "+extra:"")});items.push({t,title:"Uy ko'rsatish: "+e.title,text:extra})}
       else items.push({t,title:"Eslatma: "+e.title,text:""})});
-    items.forEach(it=>{const at=new Date(d);at.setHours(0,0,0,0);const ms=at.getTime()+it.t*6e4;if(ms>now)out.push({at:ms,title:it.title,text:it.text})})}
+    kin.forEach(p=>kinSlots(p).forEach(t=>{if(slotDone(p,k,t))return;
+      items.push({t,title:"📞 Qo'ng'iroq vaqti: "+p.name,text:p.phone?"Bosing — "+p.phone+" raqamiga qo'ng'iroq boshlanadi":"Raqamni ilovadagi Yaqinlar bo'limida kiriting",kin:p.id,tel:p.phone||""})}));
+    items.forEach(it=>{const at=new Date(d);at.setHours(0,0,0,0);const ms=at.getTime()+it.t*6e4;if(ms>now){const o={at:ms,title:it.title,text:it.text};if(it.kin){o.kin=it.kin;o.tel=it.tel}out.push(o)}})}
   const end=new Date();end.setHours(0,0,0,0);end.setDate(end.getDate()+DAYS-1);
   out.push({at:end.getTime()+20*36e5,title:"Kun tartibim",text:"Eslatmalar davom etishi uchun ilovani bir marta oching"});
   try{window.AndroidBridge.schedule(JSON.stringify(out))}catch(e){}
@@ -352,7 +384,7 @@ function pushSchedule(){clearTimeout(schedT);schedT=setTimeout(()=>{
 
 /* ---------- state ---------- */
 let view=new Date();view.setHours(12,0,0,0);
-let done={};let events=[];let expenses=[];let db=null;let dayUnsub=null;
+let done={};let events=[];let expenses=[];let kin=[];let calls=[];let db=null;let dayUnsub=null;
 let evType="show",exCat="Ovqat",exMeth="karta";
 let writeChain=Promise.resolve();
 
@@ -375,19 +407,22 @@ function renderDay(){
   const diff=Math.round((view-new Date(new Date().setHours(12,0,0,0)))/864e5);
   $("dayname").innerHTML=(diff===0?"Bugun":diff===1?"Ertaga":diff===-1?"Kecha":WD[view.getDay()])+'<div class="dates">'+view.getDate()+"-"+MONTHS[view.getMonth()]+'</div>';
   let items=plan(view);
+  kin.forEach(p=>kinSlots(p).forEach(t=>items.push({t,id:"kin_"+p.id+"_"+t,kinId:p.id,kinDone:slotDone(p,k,t),title:"Qo'ng'iroq: "+p.name,sub:p.phone||"Raqam kiritilmagan",kind:"kin"})));
   events.filter(e=>e.date===k).forEach(e=>items.push({t:toMin(e.time||"00:00"),id:"ev_"+e.id,title:e.type==="show"?"Uy ko'rsatish: "+e.title:e.title,sub:[e.client,e.phone].filter(Boolean).join(" · "),kind:e.type==="show"?"show":"remind"}));
   items.sort((a,b)=>a.t-b.t);
   let cur=-1;if(today)items.forEach((it,i)=>{if(it.t<=m)cur=i});
-  const tagTxt={namoz:"Ibodat",ish:"Ish",maqsad:"Maqsad",show:"Uy ko'rsatish",remind:"Eslatma"};
+  const tagTxt={namoz:"Ibodat",ish:"Ish",maqsad:"Maqsad",show:"Uy ko'rsatish",remind:"Eslatma",kin:"Yaqinlar"};
   $("tl").innerHTML=items.map((it,i)=>{
-    const cls=["it","k-"+(it.kind||"none")];if(done[it.id])cls.push("done");if(today&&i===cur)cls.push("cur");else if(today&&i<cur)cls.push("past");
+    const isD=it.kind==="kin"?it.kinDone:done[it.id];const cls=["it","k-"+(it.kind||"none")];if(isD)cls.push("done");if(today&&i===cur)cls.push("cur");else if(today&&i<cur)cls.push("past");
     return '<li class="'+cls.join(" ")+'"><div class="t">'+toHM(it.t)+'</div><div class="tx"><b></b><span></span>'+(it.kind&&tagTxt[it.kind]?'<i class="tag">'+tagTxt[it.kind]+'</i>':'')+'</div><button class="chk" data-id="'+it.id+'" aria-label="Bajarildi">✓</button></li>';
   }).join("");
   [...$("tl").children].forEach((li,i)=>{li.querySelector("b").textContent=items[i].title;const s=li.querySelector("span");s.textContent=items[i].sub||"";if(!items[i].sub)s.remove()});
-  const n=items.filter(it=>done[it.id]).length;$("progbar").style.width=(items.length?n/items.length*100:0)+"%";
+  const n=items.filter(it=>it.kind==="kin"?it.kinDone:done[it.id]).length;$("progbar").style.width=(items.length?n/items.length*100:0)+"%";
 }
 
 $("tl").addEventListener("click",e=>{const b=e.target.closest(".chk");if(!b)return;const id=b.dataset.id;
+  if(id.startsWith("kin_")){const kid=id.slice(4,id.lastIndexOf("_"));if(key(view)!==key(new Date())){toast("Faqat bugungi qo'ng'iroqni belgilash mumkin");return}
+    if(b.closest(".it").classList.contains("done")){toast("Bu vaqt uchun qo'ng'iroq belgilangan");return}logCall(kid).then(()=>toast("Qo'ng'iroq belgilandi"));return}
   done={...done};if(done[id])delete done[id];else done[id]=true;renderDay();saveDay(key(view),done)});
 function saveDay(k,d){if(!db)return;const body={done:{...d}};writeChain=writeChain.then(()=>db.doc("days/"+k).set(body)).catch(()=>toast("Saqlab bo'lmadi"))}
 
@@ -580,15 +615,65 @@ BOOKS.forEach(([h,list])=>{const H=document.createElement("h3");H.textContent=h;
   list.forEach(([t,d])=>{const li=document.createElement("li");li.innerHTML="<b></b><br><span></span>";li.querySelector("b").textContent=t;li.querySelector("span").textContent=d;ul.appendChild(li)});$("books").appendChild(ul)});
 const bn=document.createElement("p");bn.className="note";bn.style.margin="0";bn.textContent="Ko'pchiligining rus tilidagi tarjimasi va audiokitobi bor, yo'lda tinglash uchun qulay.";$("books").appendChild(bn);
 
+/* ---------- yaqinlarim ---------- */
+const KIN_GAP=90; // eslatmadan oldingi shu daqiqalar ichidagi qo'ng'iroq ham hisoblanadi
+let kinEdit=null;
+function parseTimes(v){const out=new Set();String(v||"").split(/[,;\s]+/).forEach(x=>{if(!x)return;const m=x.match(/^(\d{1,2})(?:[:.](\d{2}))?$/);if(!m)return;const h=+m[1],mi=m[2]?+m[2]:0;if(h<24&&mi<60)out.add(pad(h)+":"+pad(mi))});return[...out].sort()}
+function kinSlots(p){return(p.times||[]).map(toMin).sort((a,b)=>a-b)}
+const dayMin=ms=>{const d=new Date(ms);return d.getHours()*60+d.getMinutes()};
+function callsOn(id,k){return calls.filter(c=>c.kin===id&&key(new Date(c.at))===k)}
+/* Har bir eslatma o'z oralig'iga ega: [vaqt-90, keyingi vaqt-90). Shu oraliqdagi qo'ng'iroq uni yopadi. */
+function slotDone(p,k,t){const cs=callsOn(p.id,k);if(!cs.length)return false;if(p.once)return true;
+  const ts=kinSlots(p),i=ts.indexOf(t),from=t-KIN_GAP,to=i>=0&&i<ts.length-1?ts[i+1]-KIN_GAP:1440;
+  return cs.some(c=>{const m=dayMin(c.at);return m>=from&&m<to})}
+function lastCall(id){let b=null;calls.forEach(c=>{if(c.kin===id&&(!b||c.at>b.at))b=c});return b}
+function agoTxt(ms){const k=key(new Date(ms)),t=toHM(dayMin(ms));if(k===key(new Date()))return "bugun "+t;
+  const y=new Date();y.setDate(y.getDate()-1);if(k===key(y))return "kecha "+t;
+  const days=Math.round((new Date().setHours(12,0,0,0)-new Date(ms).setHours(12,0,0,0))/864e5);return days+" kun oldin"}
+async function logCall(id){if(!db)return;const l=lastCall(id);if(l&&Date.now()-l.at<6e4)return;
+  try{await db.collection("calls").add({kin:id,at:Date.now()})}catch(e){toast("Saqlab bo'lmadi")}}
+function kinCall(id){const p=kin.find(x=>x.id===id);if(!p||!p.phone)return;logCall(id);
+  if(window.AndroidBridge&&window.AndroidBridge.dial){try{window.AndroidBridge.dial(p.phone);return}catch(e){}}
+  location.href="tel:"+p.phone.replace(/[^\d+]/g,"")}
+window.kinCalled=id=>{logCall(id)};
+function renderKin(){const box=$("kinlist");box.innerHTML="";
+  if(!kin.length){box.innerHTML='<p class="empty">Hali hech kim qo\'shilmagan. Pastdagi formadan qo\'shing.</p>';return}
+  const k=key(new Date()),m=dayMin(Date.now());
+  kin.slice().sort((a,b)=>(a.ts||0)-(b.ts||0)).forEach(p=>{const c=document.createElement("div");c.className="kc";
+    c.innerHTML='<div class="kh"><div class="m"><b></b><span class="ph"></span></div><button class="callbtn" type="button"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></button></div><div class="kt"></div><div class="ka"><span class="note"></span><button type="button" class="e">Tahrirlash</button><button type="button" class="x">×</button></div>';
+    c.querySelector("b").textContent=p.name;c.querySelector(".ph").textContent=p.phone||"Raqam kiritilmagan";
+    const cb=c.querySelector(".callbtn");cb.setAttribute("aria-label",p.name+"ga qo'ng'iroq qilish");
+    if(p.phone)cb.onclick=()=>kinCall(p.id);else{cb.disabled=true}
+    const kt=c.querySelector(".kt");const ts=kinSlots(p);
+    if(!ts.length){const i=document.createElement("i");i.textContent="Eslatma vaqti yo'q";kt.appendChild(i)}
+    ts.forEach(t=>{const i=document.createElement("i");const ok=slotDone(p,k,t);i.textContent=(ok?"✓ ":"")+toHM(t);if(ok)i.className="ok";else if(!p.once&&t<m-30)i.className="miss";kt.appendChild(i)});
+    if(p.once){const i=document.createElement("i");i.textContent="kuniga 1 marta";kt.appendChild(i)}
+    const n=callsOn(p.id,k).length,l=lastCall(p.id);
+    c.querySelector(".note").textContent=(n?"Bugun "+n+" marta":"Bugun hali qo'ng'iroq qilinmagan")+(l&&key(new Date(l.at))!==k?" · oxirgisi "+agoTxt(l.at):"");
+    c.querySelector(".e").onclick=()=>kinStartEdit(p);
+    const x=c.querySelector(".x");x.setAttribute("aria-label","O'chirish");
+    x.onclick=()=>delConfirm(c,()=>db.doc("kin/"+p.id).delete());
+    box.appendChild(c)})}
+function kinStartEdit(p){kinEdit=p.id;$("kin-name").value=p.name;$("kin-phone").value=p.phone||"";$("kin-times").value=(p.times||[]).join(", ");$("kin-once").checked=!!p.once;
+  $("kin-h").textContent=p.name+" — tahrirlash";$("kin-save").textContent="Saqlash";$("kin-cancel").hidden=false;$("kin-h").scrollIntoView({behavior:"smooth",block:"start"})}
+function kinReset(){kinEdit=null;$("kinform").reset();$("kin-h").textContent="Yangi odam qo'shish";$("kin-save").textContent="Qo'shish";$("kin-cancel").hidden=true}
+$("kin-cancel").onclick=kinReset;
+$("kinform").addEventListener("submit",async e=>{e.preventDefault();if(!db){toast("Saqlash hozir ishlamayapti");return}
+  const name=$("kin-name").value.trim(),phone=$("kin-phone").value.trim(),raw=$("kin-times").value.trim(),times=parseTimes(raw);
+  if(!name)return;if(raw&&!times.length){toast("Vaqtni 09:00 shaklida yozing");return}
+  const body={name,phone,times,once:$("kin-once").checked};
+  try{if(kinEdit)await db.doc("kin/"+kinEdit).update(body);else await db.collection("kin").add({...body,ts:Date.now()});
+    toast(kinEdit?"Saqlandi":"Qo'shildi");kinReset()}catch(err){toast("Saqlab bo'lmadi")}});
+
 /* ---------- tabs ---------- */
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-current",x===b));
-  ["bugun","duo","aql","xarajat","uylar"].forEach(t=>$("tab-"+t).hidden=t!==b.dataset.tab);
+  ["bugun","duo","aql","xarajat","yaqin","uylar"].forEach(t=>$("tab-"+t).hidden=t!==b.dataset.tab);
   try{localStorage.setItem("tab",b.dataset.tab)}catch(e){}window.scrollTo(0,0)});
 try{const t=localStorage.getItem("tab");if(t){const b=document.querySelector('nav button[data-tab="'+t+'"]');b&&b.click()}}catch(e){}
 
 header();renderDay();renderEx();renderShows();
-setInterval(()=>{header();if(key(view)===key(new Date()))renderDay()},30000);
+setInterval(()=>{header();if(key(view)===key(new Date()))renderDay();if(!$("tab-yaqin").hidden)renderKin()},30000);
 
 (async()=>{
   db=LDB;
@@ -596,6 +681,13 @@ setInterval(()=>{header();if(key(view)===key(new Date()))renderDay()},30000);
   db.doc("scores/best").get().then(s=>{if(s.exists){const b=s.data();Object.keys(best).forEach(k=>{if(typeof b[k]==="number"&&b[k]>best[k])best[k]=b[k]});renderGames()}}).catch(()=>{});
   db.doc("scores/book").get().then(s=>{if(s.exists&&!$("book").value)$("book").value=s.data().title||""}).catch(()=>{});
   db.collection("events").orderBy("ts","desc").limit(500).onSnapshot(s=>{events=s.docs.map(d=>({id:d.id,...d.data()}));renderDay();renderShows();pushSchedule()},()=>{});
+  try{if(!localStorage.getItem("kinSeed")){const s=await db.collection("kin").get();if(s.empty){
+    await db.collection("kin").add({name:"Onam",phone:"",times:["10:30","13:45","16:30","19:30"],once:false,ts:Date.now()});
+    await db.collection("kin").add({name:"Dadam",phone:"",times:["08:30","20:00"],once:true,ts:Date.now()+1})}
+    localStorage.setItem("kinSeed","1")}}catch(e){}
+  const old=Date.now()-60*864e5;(await db.collection("calls").get()).docs.forEach(d=>{if((d.data().at||0)<old)db.doc("calls/"+d.id).delete()});
+  db.collection("kin").onSnapshot(s=>{kin=s.docs.map(d=>({id:d.id,...d.data()}));renderKin();renderDay();pushSchedule()},()=>{});
+  db.collection("calls").onSnapshot(s=>{calls=s.docs.map(d=>({id:d.id,...d.data()}));renderKin();renderDay();pushSchedule()},()=>{});
   db.collection("expenses").orderBy("ts","desc").limit(1000).onSnapshot(s=>{expenses=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.date||"").localeCompare(a.date||"")||b.ts-a.ts);renderEx()},()=>{});
 })();
 pushSchedule();

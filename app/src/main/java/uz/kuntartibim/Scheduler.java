@@ -62,6 +62,8 @@ public final class Scheduler {
                 it.putExtra("title", o.optString("title", "Kun tartibim"));
                 it.putExtra("text", o.optString("text", ""));
                 it.putExtra("id", n);
+                it.putExtra("kin", o.optString("kin", ""));
+                it.putExtra("tel", o.optString("tel", ""));
                 PendingIntent pi = PendingIntent.getBroadcast(c, n, it,
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                 if (exact) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi);

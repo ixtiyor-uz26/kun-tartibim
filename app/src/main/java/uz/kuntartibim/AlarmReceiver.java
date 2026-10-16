@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
@@ -16,8 +17,17 @@ public class AlarmReceiver extends BroadcastReceiver {
         String text = intent.getStringExtra("text");
         int id = intent.getIntExtra("id", 0);
 
+        String kin = intent.getStringExtra("kin");
+        String tel = intent.getStringExtra("tel");
+        boolean canCall = kin != null && !kin.isEmpty() && tel != null && !tel.isEmpty();
+
         Intent open = new Intent(c, MainActivity.class);
         open.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (canCall) {
+            open.putExtra("call_kin", kin);
+            open.putExtra("call_tel", tel);
+            open.putExtra("notif_id", 2000 + id);
+        }
         PendingIntent pi = PendingIntent.getActivity(c, 1000 + id, open,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
@@ -27,6 +37,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentTitle(title == null ? "Kun tartibim" : title)
                 .setAutoCancel(true)
                 .setContentIntent(pi);
+        if (canCall) {
+            b.addAction(new Notification.Action.Builder(
+                    Icon.createWithResource(c, R.drawable.ic_notify), "Qo'ng'iroq qilish", pi).build());
+        }
         if (text != null && !text.isEmpty()) {
             b.setContentText(text);
             b.setStyle(new Notification.BigTextStyle().bigText(text));
