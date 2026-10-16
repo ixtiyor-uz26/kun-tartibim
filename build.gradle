@@ -1,3 +1,37 @@
 plugins {
-    id 'com.android.application' version '8.5.2' apply false
+    id 'com.android.application'
+}
+
+android {
+    namespace 'uz.kuntartibim'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "uz.kuntartibim"
+        minSdk 26
+        targetSdk 34
+        versionCode 2
+        versionName "1.1"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('kuntartibim.jks')
+            storePassword System.getenv('KS_PASS') ?: 'kuntartibim2026'
+            keyAlias 'kun'
+            keyPassword System.getenv('KS_PASS') ?: 'kuntartibim2026'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 }
